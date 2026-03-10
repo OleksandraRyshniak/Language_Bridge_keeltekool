@@ -1,0 +1,60 @@
+﻿@model Keeltekooli.Models.Keelekursus
+
+@{
+    ViewBag.Title = "Kursuse kustutamine";
+}
+
+<h2>Kursuse kustutamine</h2>
+
+<h3>Kas olete kindel, et soovite selle kursuse kustutada?</h3>
+
+<div class="mt-3">
+    <h4>Keelekursus</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nimetus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nimetus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Keel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Keel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tase)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kirjeldus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Kirjeldus)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions mt-3">
+            <input type="submit" value="Kustuta kursus" class="btn btn-danger" />
+
+            @Html.ActionLink(
+                "Tagasi nimekirja",
+                "Index",
+                null,
+                new { @class = "btn btn-secondary" }
+            )
+        </div>
+    }
+</div>

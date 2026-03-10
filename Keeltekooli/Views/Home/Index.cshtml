@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Avaleht";
+}
+
+<main class="container py-5">
+
+    <!-- HERO -->
+    <section class="bg-dark text-white text-center p-5 rounded-4 shadow-lg mb-5">
+        <h1 class="display-4 fw-bold mb-4">
+            Tere tulemast LanguageBridge
+        </h1>
+
+        <p class="lead text-light mb-4">
+            Õpi keeli professionaalsete õpetajatega ja ava uks rahvusvahelisse maailma.
+        </p>
+
+        <a href="@Url.Action("Index", "Keelekursus")"
+           class="btn btn-light btn-lg px-5 fw-semibold">
+            Alusta õppimist
+        </a>
+    </section>
+
+
+    <!-- WHY US -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Miks valida meid?</h2>
+        <p class="text-muted">Pakume kvaliteetset ja paindlikku keeleõpet igale tasemele.</p>
+    </div>
+
+
+    <!-- FEATURES -->
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg h-100 text-center p-4 rounded-4">
+                <div class="fs-1 mb-3">👩‍🏫</div>
+
+                <h4 class="fw-bold mb-3">
+                    Professionaalsed õpetajad
+                </h4>
+
+                <p class="text-muted">
+                    Meie õpetajad on rahvusvahelise kogemusega ja aitavad sul keelt kiiresti ja efektiivselt omandada.
+                </p>
+
+                <div class="mt-auto">
+                    <a href="@Url.Action("Index", "Opetajas")"
+                       class="btn btn-outline-dark px-4">
+                        Rohkem
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg h-100 text-center p-4 rounded-4">
+                <div class="fs-1 mb-3">🌍</div>
+
+                <h4 class="fw-bold mb-3">
+                    Rahvusvahelised keeled
+                </h4>
+
+                <p class="text-muted">
+                    Õpi inglise, eesti, saksa ja teisi maailmakeeli mugavalt ja paindlikult.
+                </p>
+
+                <div class="mt-auto">
+                    <a href="@Url.Action("Index", "Keelekursus")"
+                       class="btn btn-outline-dark px-4">
+                        Rohkem
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @if (!User.IsInRole("Admin") || !User.IsInRole("Opilane") || !User.IsInRole("Opetaja"))
+    {
+    <!-- CALL TO ACTION -->
+    <section class="text-center mt-5 p-5 bg-light rounded-4 shadow-sm">
+        <h3 class="fw-bold mb-3">
+            Alusta oma keeleõpet juba täna!
+        </h3>
+
+        <p class="text-muted mb-4">
+            Registreeru ja leia endale sobiv kursus mõne minutiga.
+        </p>
+
+        <a href="@Url.Action("Register", "Account")"
+           class="btn btn-dark btn-lg px-5">
+            Registreeri
+        </a>
+    </section>}
+
+</main>

@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Keeltekooli.Models.RegistreerimineViewModel>
+
+@{
+    ViewBag.Title = "Minu koolitus";
+}
+
+<h2 class="mb-4">Minu koolitus</h2>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        var today = DateTime.Today;
+
+        bool isActive = item.Koolitus.AlgusKuupaev <= today &&
+                        today <= item.Koolitus.LoppKuupaev;
+
+        // ===== Флаги =====
+        var flags = new Dictionary<string, string>
+{
+        {"Inglise", Url.Content("~/images/flags/inglise.png")},
+        {"Saksa", Url.Content("~/images/flags/saksa.png")},
+        {"Eesti", Url.Content("~/images/flags/est.png")},
+        {"Prantsuse", Url.Content("~/images/flags/franch.png")},
+        {"Hispaania", Url.Content("~/images/flags/spain.png")}
+    };
+
+        string flagSrc;
+
+        if (!flags.TryGetValue(item.Koolitus.Keelekursus.Keel, out flagSrc))
+        {
+            flagSrc = Url.Content("~/images/flags/default.png");
+        }
+
+        // ===== Tase värv =====
+        string bgColor;
+
+        switch (item.Koolitus.Keelekursus.Tase)
+        {
+       
+            case "A2":
+                bgColor = "lightgreen";
+                break;
+            case "B1":
+                bgColor = "green";
+                break;
+            case "B2":
+                bgColor = "yellow";
+                break;
+            case "C1":
+                bgColor = "lightcoral";
+                break;
+            default:
+                bgColor = "red";
+                break;
+        }
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+
+                        @item.Koolitus.Keelekursus.Nimetus
+
+                        <img src="@flagSrc"
+                             style="width:20px;height:16px;" />
+
+                        @if (isActive)
+                        {
+                            <span class="badge bg-success ms-2">Aktiivne</span>
+                        }
+                        else if (today < item.Koolitus.AlgusKuupaev)
+                        {
+                            <span class="badge bg-info ms-2">Peagi algav</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary ms-2">Lõppenud</span>
+                        }
+
+                    </h5>
+
+                    <p class="card-text">
+
+                        <strong>Õpetaja:</strong> @item.Koolitus.Opetaja.Nimi <br />
+
+                        <strong>Tase:</strong>
+
+                        <span style="padding:3px 6px;
+             background-color:@bgColor;
+             border-radius:4px;">
+                            @item.Koolitus.Keelekursus.Tase
+                        </span>
+
+                        <br />
+
+                        <strong>Algus:</strong>
+                        @item.Koolitus.AlgusKuupaev.ToShortDateString() <br />
+
+                        <strong>Lõpp:</strong>
+                        @item.Koolitus.LoppKuupaev.ToShortDateString() <br />
+
+                        <strong>Hind:</strong> @item.Koolitus.Hind € <br />
+
+                        <strong>Max osalejaid:</strong>
+                        @item.Koolitus.MaxOsalejaid <br />
+
+                        <strong>Staatus:</strong>
+
+                        @if (item.Staatus == "Kinnitatud")
+                        {
+                            <span class="badge bg-success">Kinnitatud</span>
+                        }
+                        else if (item.Staatus == "Ootel")
+                        {
+                            <span class="badge bg-warning text-dark">Ootel</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Tühistatud</span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    @Html.ActionLink(
+                    "Kirjutada õpetajale",
+                    "SendEmailop",
+                    "SendEmail",
+                    new { id = item.Id },
+                    new { @class = "btn btn-outline-dark btn-sm w-100" })
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

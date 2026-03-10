@@ -1,0 +1,54 @@
+﻿@model Keeltekooli.Models.Opetaja
+@{
+    ViewBag.Title = "Õpetaja kustutamine";
+}
+
+<h2>Õpetaja kustutamine</h2>
+
+<h3>Kas olete kindel, et soovite selle kustutada?</h3>
+<div>
+    <h4>Õpetaja</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nimi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nimi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kvalifikatsioon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kvalifikatsioon)
+        </dd>
+
+        <dt>
+            Foto
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/Images/" + Model.FotoPath)"
+                 style="width:300px; height:300px; object-fit:contain; background:#ffffff;" />
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions mt-3">
+            <input type="submit" value="Kustuta õpetaja" class="btn btn-danger" />
+
+            @Html.ActionLink(
+                "Tagasi nimekirja",
+                "Index",
+                null,
+                new { @class = "btn btn-secondary" }
+            )
+        </div>
+    }
+</div>

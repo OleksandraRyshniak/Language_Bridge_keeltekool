@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Keeltekooli.Models.OpetajaViewModel>
+
+@{
+    ViewBag.Title = "Õpetajad";
+}
+
+<h2 class="mb-4">Õpetajad</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Lisa uus õpetaja", "Create", null,
+            new { @class = "btn btn-primary mb-3" })
+    </p>
+}
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow-sm">
+<img src="@Url.Content("~/Images/" + item.FotoPath)"
+     style="width: 300px; height: 300px; object-fit: contain; background: #ffffff; display: block; margin: auto;" />
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        @item.Nimi
+                    </h5>
+
+                    <p class="card-text">
+                        <strong>Kvalifikatsioon:</strong>
+                        @item.Kvalifikatsioon
+                    </p>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <p class="card-text">
+                            <strong>Email:</strong> @item.Email <br />
+
+                        </p>
+                    }
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Muuta", "Edit",
+                                 new { id = item.Id },
+                                 new { @class = "btn btn-warning btn-sm w-100 mb-2" })
+
+                        @Html.ActionLink("Kustuta", "Delete",
+                                 new { id = item.Id },
+                                 new { @class = "btn btn-danger btn-sm w-100" })
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

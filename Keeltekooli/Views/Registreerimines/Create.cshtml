@@ -1,0 +1,69 @@
+﻿@model Keeltekooli.Models.RegistreerimineViewModel
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Registreerimine";
+}
+
+<h2 class="mb-4">Registreerimine</h2>
+
+@if (ViewBag.Koolitus != null)
+{
+    <div class="alert alert-info">
+        <h3><strong>Koolitus:</strong> </h3>
+        @ViewBag.Koolitus.Keelekursus.Nimetus
+        (@ViewBag.Koolitus.AlgusKuupaev.ToString("yyyy.MM.dd") - @ViewBag.Koolitus.LoppKuupaev.ToString("yyyy.MM.dd"))
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h2><strong>Sa oled juba registreeritud sellele kursusele. </strong> </h2>
+    </div>
+}
+
+@using (Html.BeginForm("Create", "Registreerimines", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.KoolitusId)
+
+    <div class="card shadow-sm p-4">
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Nimi, "Nimi")
+            @Html.EditorFor(m => m.Nimi,
+                     new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.Nimi, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Email, "E-post")
+            @Html.EditorFor(m => m.Email,
+                     new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="form-group mt-4">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span> Registreeru
+            </button>
+
+            @Html.ActionLink(
+                             " Tagasi nimekirja",
+                             "Index",
+                             "Koolitus",
+                             null,
+                             new { @class = "btn btn-secondary" }
+                         )
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

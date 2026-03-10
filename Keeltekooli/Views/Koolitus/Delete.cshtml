@@ -1,0 +1,59 @@
+﻿﻿@model Keeltekooli.Models.Koolitus
+
+@{
+    ViewBag.Title = "Koolituse kustutamine";
+}
+
+<h2>Koolituse kustutamine</h2>
+
+<h3>Kas olete kindel, et soovite selle koolituse kustutada?</h3>
+
+<h4>Koolitus</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>Kursuse nimetus</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Keelekursus.Nimetus)
+    </dd>
+
+    <dt>Õpetaja</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Opetaja.Nimi)
+    </dd>
+
+    <dt>Alguskuupäev</dt>
+    <dd>
+        @Html.DisplayFor(model => model.AlgusKuupaev, "{0:yyyy-MM-dd}")
+    </dd>
+
+    <dt>Lõppkuupäev</dt>
+    <dd>
+        @Html.DisplayFor(model => model.LoppKuupaev, "{0:yyyy-MM-dd}")
+    </dd>
+
+    <dt>Hind (€)</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Hind)
+    </dd>
+
+    <dt>Maksimaalne osalejate arv</dt>
+    <dd>
+        @Html.DisplayFor(model => model.MaxOsalejaid)
+    </dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions mt-3">
+        <input type="submit" value="Kustuta koolitus" class="btn btn-danger" />
+
+        @Html.ActionLink(
+            "Tagasi nimekirja",
+            "Index",
+            null,
+            new { @class = "btn btn-secondary" }
+        )
+    </div>
+}

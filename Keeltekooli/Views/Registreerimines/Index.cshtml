@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Keeltekooli.Models.RegistreerimineViewModel>
+
+@{
+    ViewBag.Title = ViewBag.KoolitusNimi;
+}
+
+<h2>@ViewBag.KoolitusNimi</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            Kursus
+        </th>
+        <th>
+            Email
+        </th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Koolitus.Keelekursus.Nimetus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staatus)
+            </td>
+            @if (User.IsInRole("Admin") && item.Staatus == "Ootel")
+            {
+                <td>
+                    @Html.ActionLink(
+                             "Kinnita",
+                             "VahetaStaatus",
+                             new { id = item.Id, kinnita = true },
+                             new { @class = "btn btn-sm btn-success" }
+                         )
+
+                    @Html.ActionLink(
+                             "Tühista",
+                             "VahetaStaatus",
+                             new { id = item.Id, kinnita = false },
+                             new { @class = "btn btn-sm btn-danger" }
+                         )
+                </td>
+            }
+            @if (User.IsInRole("Opetaja"))
+            {
+                <td>
+                    @Html.ActionLink(
+                  "Kirjutama",
+                  "SendEmail",
+                  "SendEmail",
+                  new { id = item.Id },
+                  new { @class = "btn btn-sm btn-success" } // CSS
+              )
+                </td>
+            }
+
+        </tr>
+    }
+
+</table>
+
+@if (User.IsInRole("Opetaja"))
+{
+    <p>
+        @Html.ActionLink(
+            "Saada kõigile",
+            "SendEmailAll",
+            "SendEmail",
+            null,
+            new { @class = "btn btn-danger" }
+        )
+    </p>
+}
