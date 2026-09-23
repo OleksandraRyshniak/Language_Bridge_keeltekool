@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using Keeltekooli.Controllers;
+using Keeltekooli.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using ZendeskApi_v2.Requests;
-
-
+using TARpv24Keeltekooli.XUnitTesting.Mock;
+using TARpv24Keeltekooli.XUnitTesting.Macros;
+using Microsoft.EntityFrameworkCore.InMemory;
 
 
 namespace TARpv24Keeltekooli.XUnitTesting
@@ -37,7 +38,7 @@ namespace TARpv24Keeltekooli.XUnitTesting
             services.AddScoped<KoolitusController>();
             services.AddScoped<IHostEnvironment, MockIHostEnvironment>();
 
-            services.AddDbContext<KeeltekooliContext>
+            services.AddDbContext<ApplicationUser>
                 (x =>
                 {
                     x.UseInMemoryDatabase("Test");
@@ -62,6 +63,12 @@ namespace TARpv24Keeltekooli.XUnitTesting
             return serviceProvider.GetService<T>();
         }
 
+        /// <summary>
+        /// Registreerib macrodes teenusied kui nad ei ole liidesed ja ei ole abstraktsed
+        /// On vaja test setupide sedistuseks
+        /// Makro --> Teenus
+        /// </summary>
+        /// <param name="services"> Teenused, siia lisatakse makrodest muid teenuseid.</param>
         private void RegisterMacros(ServiceCollection services)
         {
             var macroBaseType = typeof(IMacros);
@@ -69,7 +76,7 @@ namespace TARpv24Keeltekooli.XUnitTesting
             var macros = macroBaseType.Assembly.GetTypes()
                 .Where(t => macroBaseType.IsAssignableFrom(t)
                 && !t.IsInterface && !t.IsAbstract);
-            foreach(var macro is macros)
+            foreach(var macro in macros)
             {
                 services.AddSingleton(macro);
             }
