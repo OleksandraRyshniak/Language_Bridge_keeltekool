@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Keeltekooli/Keeltekooli.csproj" Id="ad72ca15-2a61-42f1-bce9-c2f3c6839d45" />
+  <Project Path="TARpv24Shop.XUnitTesting/TARpv24Keeltekooli.XUnitTesting.csproj" Id="5d4a3d48-aa4c-4bc6-ba24-32284593ff4e" />
 </Solution>
